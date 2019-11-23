@@ -10,7 +10,7 @@
 
 var MapDelegate = function () {
     //TODO: (GIT issue #16) Find a way to map to the correct URL dynamically
-    this.url = 'http://192.168.0.198:1337/map/';
+    this.url = 'map/';
     this.interval_ms = 10000;
     this.interval_fn;
 
@@ -26,6 +26,7 @@ var MapDelegate = function () {
             .fail(function (response) {
                 console.log(response); // server response
                 console.log("error");
+                handler_fn();
             });
         } catch (e) {
             console.error("RPG Error: ", e);

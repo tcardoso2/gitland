@@ -337,11 +337,14 @@
                 //Call the Map service to get the number of tiles required
                 md = new MapDelegate();
                 md.size(function (response) {
+                    if(!response) throw Error("No response")
                     uce('exampleI3_3').log("Got response from map size service:" + JSON.stringify(response));
                     uce('exampleI3_3').log('Done. creating isometric map...');
                     //Core.IsometricMap.m.tilesData.length.x
-                    Core.IsometricMap.m.tilesData.length.x = response.x;
-                    Core.IsometricMap.m.tilesData.length.y = response.y;
+                    if(Core.IsometricMap.m.tilesData) {
+                        Core.IsometricMap.m.tilesData.length.x = response.x;
+                        Core.IsometricMap.m.tilesData.length.y = response.y;
+                    }
 
                     uce('exampleI3_3').log('Creating MVC structure...')
                         .setModel(new MexampleI3_3())
