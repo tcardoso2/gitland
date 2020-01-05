@@ -190,8 +190,8 @@
 		        init: function () {
 		            //The init should have as less code as possible
 		            //This initializes all the Core components.
-		            this.uc.log('Initializing Core Library...')
-		            __initCoreLibrary__();
+                    this.uc.log('Initializing Core Library...')
+                    __initCoreLibrary__();
 		            this.uc.log('Allowing "click" events to happen');
                     uce('core').forceNotPreventDefaultOn = 'click';
                     uce('core').forceAllowPropagationOn = 'click';
@@ -330,8 +330,7 @@
 		    /****************************************************
 		    *	USE-CASES
 		    ****************************************************/
-		    uce('exampleI3_3').ready(function (e) {
-
+            var loadMap = function (e) {
 		        uce('exampleI3_3').logInConsole = true;
                 
                 //Call the Map service to get the number of tiles required
@@ -341,6 +340,13 @@
                     uce('exampleI3_3').log("Got response from map size service:" + JSON.stringify(response));
                     uce('exampleI3_3').log('Done. creating isometric map...');
                     //Core.IsometricMap.m.tilesData.length.x
+                    if(!Core.IsometricMap) {
+                        setTimeout(() => {
+                            console.warn("Asynchronous error, re-loading...")
+                            loadMap(e) 
+                        }, 1000);
+                        return;
+                    }
                     if(Core.IsometricMap.m.tilesData) {
                         Core.IsometricMap.m.tilesData.length.x = response.x;
                         Core.IsometricMap.m.tilesData.length.y = response.y;
@@ -379,7 +385,8 @@
                     .addusecase('on_deleted_item', 'uc_zisomap_on_deleted_item', function (e) {
                     });
                 });
-            });
+            };
+            uce('exampleI3_3').ready(loadMap);
             </script>
     </section>
 </body>

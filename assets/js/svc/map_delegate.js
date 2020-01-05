@@ -20,7 +20,14 @@ var MapDelegate = function () {
                 dataType: "json",
                 url: this.url + _method,
                 success: function (response) {
-                   handler_fn(response);
+                    if(!response) {
+                        alert("No response from server!");
+                    }
+                    try {
+                        handler_fn(response);
+                    } catch(e) {
+                        throw e;
+                    }
                 }
             })
             .fail(function (response) {
